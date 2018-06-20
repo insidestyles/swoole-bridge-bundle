@@ -1,0 +1,27 @@
+parameters:
+
+    swoole_bridge.handler.class: Insidestyles\SwooleBridge\Handler
+    swoole_bridge.adapter.symfony.class: Insidestyles\SwooleBridge\Adapter\SymfonyAdapter
+    swoole_bridge.factory.request_builder.class: Insidestyles\SwooleBridge\Builder\RequestBuilderFactory
+    swoole_bridge.emitter.class: Insidestyles\SwooleBridge\Emiter\SwooleResponseEmitter
+    swoole_bridge.symfony_kernel.class: Symfony\Component\HttpKernel\Kernel
+
+services:
+
+    swoole_bridge.emitter:
+        class: "%swoole_bridge.emitter.class%"
+
+    swoole_bridge.factory.request_builder:
+        class: "%swoole_bridge.factory.request_builder.class%"
+
+    swoole_bridge.adapter.symfony:
+        class: "%swoole_bridge.adapter.symfony.class%"
+        arguments:
+            - "@swoole_bridge.emitter"
+            - "@swoole_bridge.factory.request_builder"
+
+    swoole_bridge.handler:
+        class: "%swoole_bridge.handler.class%"
+        arguments:
+            - "@swoole_bridge.adapter.symfony"
+            - "?@monolog.logger"
