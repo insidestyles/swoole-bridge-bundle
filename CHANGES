@@ -1,3 +1,6 @@
+Version 0.3.1:
+ - revert optional log
+
 Version 0.3.0:
  - require logger
 
