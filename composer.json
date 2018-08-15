@@ -1,7 +1,7 @@
 {
     "name": "insidestyles/swoole-bridge-bundle",
     "description": "Swoole Bridge For Php Frameworks",
-    "type": "library",
+    "type": "symfony-bundle",
     "license": "MIT",
     "authors": [
         {
