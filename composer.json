@@ -33,5 +33,10 @@
         "psr-4": {
             "": "Tests/DependencyInjection"
         }
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": "true"
+        }
     }
 }
