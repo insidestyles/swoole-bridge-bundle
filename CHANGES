@@ -1,3 +1,7 @@
+Version 0.2.0:
+ - update swoole-bridge 0.3
+ - update readme
+
 Version 0.1.0
  - Init
  - Initial commit
