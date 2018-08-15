@@ -30,4 +30,4 @@ services:
         class: "%swoole_bridge.handler.class%"
         arguments:
             - "@swoole_bridge.adapter.symfony"
-            - "@logger"
+            - "@?logger"

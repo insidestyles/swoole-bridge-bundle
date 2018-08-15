@@ -21,8 +21,8 @@ Update config.yml
 ```yaml
 swoole_bridge:
     server:
-        port: "%web_socket_port%"      #The port the socket server will listen on
-        host: "%web_socket_host%"
+        port: "%web_server_port%"      #The port the socket server will listen on
+        host: "%web_server_host%"
 ```
 Update AppKernel
 ```php
