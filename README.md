@@ -34,3 +34,28 @@ Update AppKernel
 ```sh
     php bin/console swoole:bridge:server
 ```
+
+## Create custom handler
+
+```php
+    class CustomHandler implements SwooleBridgeInterface
+    
+    /**
+     * @inheritdoc
+     */
+    public function handle(
+        SwooleRequest $swooleRequest,
+        SwooleResponse $swooleResponse
+    ): void {
+        //handle
+    }
+    
+```
+
+```yml 
+#config/services.yaml
+services:
+    swoole_bridge.handler:
+        class: App\CustomHandler
+        decorates: swoole_bridge.handler
+        arguments: ['@swoole_bridge.handler.inner']
