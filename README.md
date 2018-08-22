@@ -36,10 +36,43 @@ Update AppKernel
 ```
 
 ## Create custom handler
+One of common problems while running long lived program in php is "MySQL server has gone away" (Long lived php 
+daemon running using reactphp, websocket, swoole, ..etc..). 
+In this case we can create a custom handler to handle this error. For example:
 
 ```php
-    class CustomHandler implements SwooleBridgeInterface
-    
+class CustomHandler implements SwooleBridgeInterface
+{    
+    /**
+     * @var SwooleAdapterInterface
+     */
+    private $adapter;
+
+    /**
+     * @var RegistryInterface
+     */
+    private $doctrineRegistry;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
+     * Handler constructor.
+     * @param SwooleAdapterInterface $adapter
+     * @param null|LoggerInterface $logger
+     */
+    public function __construct(
+        SwooleAdapterInterface $adapter,
+        RegistryInterface $doctrineRegistry,
+        ?LoggerInterface $logger = null
+    ) {
+        $this->adapter = $adapter;
+        $this->doctrineRegistry = $doctrineRegistry;
+        $this->logger = $logger ?? new NullLogger();
+    }
+
     /**
      * @inheritdoc
      */
@@ -47,11 +80,27 @@ Update AppKernel
         SwooleRequest $swooleRequest,
         SwooleResponse $swooleResponse
     ): void {
-        //handle
+        try {
+            $this->adapter->handle($swooleRequest, $swooleResponse);
+        } catch (PDOException $e) {
+            $this->logger->error($e->getMessage());
+            /** @var EntityManagerInterface $entityManager */
+            $entityManager = $this->doctrineRegistry->getManager();
+            if(!$entityManager->isOpen()) {
+                $this->logger->warning('Resetting entity manager');
+                $this->doctrineRegistry->resetManager();
+            }
+            $this->doctrineRegistry->resetManager();
+        } catch (\Throwable $e) {
+            $this->logger->error($e->getMessage());
+        }
     }
+}
     
 ```
 
+Override default handler using symfony service decorator:
+ 
 ```yml 
 #config/services.yaml
 services:
