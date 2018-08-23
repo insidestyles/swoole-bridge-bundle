@@ -90,7 +90,6 @@ class CustomHandler implements SwooleBridgeInterface
                 $this->logger->warning('Resetting entity manager');
                 $this->doctrineRegistry->resetManager();
             }
-            $this->doctrineRegistry->resetManager();
         } catch (\Throwable $e) {
             $this->logger->error($e->getMessage());
         }
