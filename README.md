@@ -44,9 +44,9 @@ In this case we can create a custom handler to handle this error. For example:
 class CustomHandler implements SwooleBridgeInterface
 {    
     /**
-     * @var SwooleAdapterInterface
+     * @var SwooleBridgeInterface
      */
-    private $adapter;
+    private $swooleBridge;
 
     /**
      * @var RegistryInterface
@@ -60,15 +60,15 @@ class CustomHandler implements SwooleBridgeInterface
 
     /**
      * Handler constructor.
-     * @param SwooleAdapterInterface $adapter
+     * @param SwooleBridgeInterface $swooleBridge
      * @param null|LoggerInterface $logger
      */
     public function __construct(
-        SwooleAdapterInterface $adapter,
+        SwooleBridgeInterface $swooleBridge,
         RegistryInterface $doctrineRegistry,
         ?LoggerInterface $logger = null
     ) {
-        $this->adapter = $adapter;
+        $this->swooleBridge = $swooleBridge;
         $this->doctrineRegistry = $doctrineRegistry;
         $this->logger = $logger ?? new NullLogger();
     }
@@ -81,7 +81,7 @@ class CustomHandler implements SwooleBridgeInterface
         SwooleResponse $swooleResponse
     ): void {
         try {
-            $this->adapter->handle($swooleRequest, $swooleResponse);
+            $this->swooleBridge->handle($swooleRequest, $swooleResponse);
         } catch (PDOException $e) {
             $this->logger->error($e->getMessage());
             /** @var EntityManagerInterface $entityManager */
@@ -106,4 +106,7 @@ services:
     swoole_bridge.handler:
         class: App\CustomHandler
         decorates: swoole_bridge.handler
-        arguments: ['@swoole_bridge.handler.inner']
+        arguments: 
+            - '@swoole_bridge.handler.inner'
+            - '@doctrine'
+            - '@logger'
