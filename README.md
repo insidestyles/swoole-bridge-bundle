@@ -84,10 +84,14 @@ class CustomHandler implements SwooleBridgeInterface
             $this->swooleBridge->handle($swooleRequest, $swooleResponse);
         } catch (PDOException $e) {
             $this->logger->error($e->getMessage());
-            /** @var EntityManagerInterface $entityManager */
-            $entityManager = $this->doctrineRegistry->getManager();
-            if(!$entityManager->isOpen()) {
-                $this->logger->warning('Resetting entity manager');
+            if (!$this->doctrineRegistry->getConnection()->ping()) {
+                /** @var Connection $connection */
+                $connection = $this->doctrineRegistry->getConnection();
+                $connection->close();
+                $connection->connect();
+            }
+            $em = $this->doctrineRegistry->getEntityManager();
+            if (!$em->isOpen()){
                 $this->doctrineRegistry->resetManager();
             }
         } catch (\Throwable $e) {
