@@ -31,3 +31,10 @@ services:
         arguments:
             - "@swoole_bridge.adapter.symfony"
             - "@?logger"
+
+    swoole_bridge.server_command:
+        class: Insidestyles\SwooleBridgeBundle\Command\SwooleBridgeServerCommand
+        arguments:
+            - "@swoole_bridge.handler"
+            - "%swoole_bridge.server.host%"
+            - "%swoole_bridge.server.port%"
