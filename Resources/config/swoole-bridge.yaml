@@ -38,3 +38,5 @@ services:
             - "@swoole_bridge.handler"
             - "%swoole_bridge.server.host%"
             - "%swoole_bridge.server.port%"
+        tags:
+            - { name: console.command }
