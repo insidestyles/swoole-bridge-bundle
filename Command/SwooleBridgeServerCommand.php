@@ -2,8 +2,7 @@
 
 namespace Insidestyles\SwooleBridgeBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Insidestyles\SwooleBridge\Handler;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -11,8 +10,30 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Class SwooleBridgeServerCommand
  * @package Insidestyles\SwooleBridgeBundle\Command
  */
-class SwooleBridgeServerCommand extends ContainerAwareCommand
+final class SwooleBridgeServerCommand
 {
+    /**
+     * @var Handler
+     */
+    private $handler;
+
+    /**
+     * @var string
+     */
+    private $host;
+
+    /**
+     * @var int
+     */
+    private $port;
+
+    public function __construct(Handler $handler, string $host, int $port)
+    {
+        $this->handler = $handler;
+        $this->host    = $host;
+        $this->port    = $port;
+    }
+
     protected function configure()
     {
         $this
@@ -21,23 +42,20 @@ class SwooleBridgeServerCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $container = $this->getContainer();
-        $handler = $container->get('swoole_bridge.handler');
-
-        $http = new \swoole_http_server($container->getParameter('swoole_bridge.server.host'),
-            $container->getParameter('swoole_bridge.server.port'));
+        $http = new \swoole_http_server($this->host, $this->port);
         $http->on(
             'request',
-            function (\Swoole\Http\Request $request, \Swoole\Http\Response $response) use ($handler) {
-                $handler->handle($request, $response);
+            function (\Swoole\Http\Request $request, \Swoole\Http\Response $response) {
+                $this->handler->handle($request, $response);
             }
         );
 
         $http->start();
+        $output->writeln("Server started on {$this->host}:{$this->port}");
     }
 }
