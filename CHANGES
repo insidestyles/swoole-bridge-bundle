@@ -1,3 +1,14 @@
+Version 0.4.1:
+ - doc change
+ - Merge pull request #1 from dzikismigol/master
+ - add CLI command tag
+ - use DI in favor of injecting container in CLI command
+ - fx
+ - update doc
+ - example doc for handle mysql server has run away
+ - example doc for handle mysql server has run away
+ - Update README.md
+
 Version 0.4.0:
 
 
