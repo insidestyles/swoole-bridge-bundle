@@ -84,9 +84,9 @@ class CustomHandler implements SwooleBridgeInterface
             $this->swooleBridge->handle($swooleRequest, $swooleResponse);
         } catch (PDOException $e) {
             $this->logger->error($e->getMessage());
-            if (!$this->doctrineRegistry->getConnection()->ping()) {
-                /** @var Connection $connection */
-                $connection = $this->doctrineRegistry->getConnection();
+            /** @var Connection $connection */
+            $connection = $this->doctrineRegistry->getConnection();
+            if (!$connection->ping()) {
                 $connection->close();
                 $connection->connect();
             }
