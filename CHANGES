@@ -1,3 +1,6 @@
+Version 0.4.2:
+ - extend base Symfony Command class
+
 Version 0.4.1:
  - doc change
  - Merge pull request #1 from dzikismigol/master
