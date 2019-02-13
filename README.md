@@ -107,10 +107,10 @@ Override default handler using symfony service decorator:
 ```yml 
 #config/services.yaml
 services:
-    swoole_bridge.handler:
+    swoole_bridge.custom_handler:
         class: App\CustomHandler
         decorates: swoole_bridge.handler
         arguments: 
-            - '@swoole_bridge.handler.inner'
+            - '@swoole_bridge.custom_handler.inner'
             - '@doctrine'
             - '@logger'
