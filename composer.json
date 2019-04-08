@@ -13,7 +13,7 @@
     "require": {
         "php": "^7.2",
         "symfony/framework-bundle": "^3.0|^4.0",
-        "insidestyles/swoole-bridge": "^0.3.0",
+        "insidestyles/swoole-bridge": "^0.4.0",
         "symfony/psr-http-message-bridge": "^1.0",
         "symfony/console": "^3.0|^4.0",
         "zendframework/zend-diactoros": "^1.7"
