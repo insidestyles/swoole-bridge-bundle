@@ -1,3 +1,6 @@
+Version 1.1.0:
+ - update composer for symfony 5
+
 Version 1.0.0:
  - fix Invalid stream reference provided
  - Update README.md
