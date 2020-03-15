@@ -1,3 +1,7 @@
+Version 1.1.1:
+ - Merge pull request #4 from Edwolfbear/master
+ - updated for symfony 5
+
 Version 1.1.0:
  - update composer for symfony 5
 
