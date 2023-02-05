@@ -32,6 +32,9 @@ final class SwooleBridgeServerCommand extends Command
     {
         $http = new Server($this->host, $this->port);
         $http->set($this->configs);
+        $http->on('start', function (Server $server) use ($output): void {
+            $output->writeln("Server started on {$this->host}:{$this->port}").PHP_EOL;
+        });
         $http->on(
             'request',
             function (Request $request, Response $response) {
@@ -40,6 +43,5 @@ final class SwooleBridgeServerCommand extends Command
         );
 
         $http->start();
-        $output->writeln("Server started on {$this->host}:{$this->port}");
     }
 }
