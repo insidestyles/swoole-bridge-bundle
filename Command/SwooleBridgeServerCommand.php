@@ -3,37 +3,21 @@
 namespace Insidestyles\SwooleBridgeBundle\Command;
 
 use Insidestyles\SwooleBridge\Handler;
+use Swoole\Http\Request;
+use Swoole\Http\Response;
+use Swoole\Http\Server;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * Class SwooleBridgeServerCommand
- * @package Insidestyles\SwooleBridgeBundle\Command
- */
 final class SwooleBridgeServerCommand extends Command
 {
-    /**
-     * @var Handler
-     */
-    private $handler;
-
-    /**
-     * @var string
-     */
-    private $host;
-
-    /**
-     * @var int
-     */
-    private $port;
-
-    public function __construct(Handler $handler, string $host, int $port)
-    {
+    public function __construct(
+        private Handler $handler,
+        private string $host,
+        private int $port
+    ) {
         parent::__construct();
-        $this->handler = $handler;
-        $this->host    = $host;
-        $this->port    = $port;
     }
 
     protected function configure()
@@ -43,16 +27,12 @@ final class SwooleBridgeServerCommand extends Command
             ->setDescription('Start swoole server');
     }
 
-    /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        $http = new \swoole_http_server($this->host, $this->port);
+        $http = new Server($this->host, $this->port);
         $http->on(
             'request',
-            function (\Swoole\Http\Request $request, \Swoole\Http\Response $response) {
+            function (Request $request, Response $response) {
                 $this->handler->handle($request, $response);
             }
         );

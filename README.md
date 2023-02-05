@@ -3,11 +3,11 @@ Symfony Swoole Bridge Bundle
 
 ## Requirements
 
-* PHP >= 7.2
-* symfony/framework-bundle: "^3.0|^4.0"
-* insidestyles/swoole-bridge: "^0.1"
-* symfony/console: "^3.0|^4.0",
-* zendframework/zend-diactoros: "^1.7"
+* PHP >= 7.1
+* symfony/framework-bundle: "^5.0|^6.0"
+* insidestyles/swoole-bridge: "^1.0"
+* symfony/console: "^5.0|^6.0",
+* "laminas/laminas-diactoros": "^2.0"
 
 
 ## Installation
@@ -24,9 +24,9 @@ swoole_bridge:
         port: "%web_server_port%"      #The port the socket server will listen on
         host: "%web_server_host%"
 ```
-Update AppKernel
+Update bundles
 ```php
-    new Insidestyles\SwooleBridgeBundle\SwooleBridgeBundle(),
+     Insidestyles\SwooleBridgeBundle\SwooleBridgeBundle::class => ['all' => true],
 ```
 
 ## Usage

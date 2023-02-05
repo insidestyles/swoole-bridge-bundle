@@ -5,6 +5,7 @@ namespace Insidestyles\SwooleBridgeBundle;
 use Insidestyles\SwooleBridgeBundle\DependencyInjection\Compiler\AddProcessorsPass;
 use Insidestyles\SwooleBridgeBundle\DependencyInjection\SwooleBridgeExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
@@ -32,7 +33,7 @@ class SwooleBridgeBundle extends Bundle
     /**
      * {@inheritdoc}
      */
-    public function getContainerExtension()
+    public function getContainerExtension(): ?ExtensionInterface
     {
         return new SwooleBridgeExtension();
     }

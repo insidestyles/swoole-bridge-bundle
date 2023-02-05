@@ -14,10 +14,22 @@ services:
     swoole_bridge.factory.request_builder:
         class: "%swoole_bridge.factory.request_builder.class%"
 
+    Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory: ~
+    Symfony\Bridge\PsrHttpMessage\HttpFoundationFactoryInterface: '@Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory'
+
+    swoole_bridge.factory.psr17:
+        class: Nyholm\Psr7\Factory\Psr17Factory
+    Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory:
+        class: Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory
+        arguments:
+            - "@swoole_bridge.factory.psr17"
+            - "@swoole_bridge.factory.psr17"
+            - "@swoole_bridge.factory.psr17"
+            - "@swoole_bridge.factory.psr17"
+    Symfony\Bridge\PsrHttpMessage\HttpMessageFactoryInterface: '@Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory'
     swoole_bridge.psr15_symfony_kernel:
         class: "%swoole_bridge.psr15_symfony_kernel.class%"
-        arguments:
-            - "@kernel"
+        autowire: true
 
     swoole_bridge.adapter.symfony:
         class: "%swoole_bridge.adapter.symfony.class%"
@@ -25,12 +37,14 @@ services:
             - "@swoole_bridge.emitter"
             - "@swoole_bridge.psr15_symfony_kernel"
             - "@swoole_bridge.factory.request_builder"
+    Insidestyles\SwooleBridge\Adapter\SymfonyAdapter: '@swoole_bridge.adapter.symfony'
 
     swoole_bridge.handler:
         class: "%swoole_bridge.handler.class%"
         arguments:
             - "@swoole_bridge.adapter.symfony"
             - "@?logger"
+    Insidestyles\SwooleBridge\Handler: '@swoole_bridge.handler'
 
     swoole_bridge.server_command:
         class: Insidestyles\SwooleBridgeBundle\Command\SwooleBridgeServerCommand
@@ -40,3 +54,4 @@ services:
             - "%swoole_bridge.server.port%"
         tags:
             - { name: console.command }
+    Insidestyles\SwooleBridgeBundle\Command\SwooleBridgeServerCommand: '@swoole_bridge.server_command'
