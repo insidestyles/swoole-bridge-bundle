@@ -28,6 +28,7 @@ class SwooleBridgeExtension extends Extension
 
             $container->setParameter('swoole_bridge.server.host', $configs['server']['host']);
             $container->setParameter('swoole_bridge.server.port', $configs['server']['port']);
+            $container->setParameter('swoole_bridge.server.configs', $configs['server']['configs'] ?? []);
 
             if (!empty($configs['server']['origins'])) {
                 //@todo add origin check
