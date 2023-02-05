@@ -39,6 +39,11 @@ class Configuration implements ConfigurationInterface
                             ->defaultValue(false)
                             ->example(true)
                         ->end()
+                        ->arrayNode('configs')
+                            ->useAttributeAsKey('code')
+                            ->prototype('scalar')
+                            ->end()
+                        ->end()
                     ->end()
                 ->end()
             ->end();

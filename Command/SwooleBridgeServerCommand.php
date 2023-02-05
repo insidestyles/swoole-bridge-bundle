@@ -15,7 +15,8 @@ final class SwooleBridgeServerCommand extends Command
     public function __construct(
         private Handler $handler,
         private string $host,
-        private int $port
+        private int $port,
+        private array $configs,
     ) {
         parent::__construct();
     }
@@ -30,6 +31,7 @@ final class SwooleBridgeServerCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $http = new Server($this->host, $this->port);
+        $http->set($this->configs);
         $http->on(
             'request',
             function (Request $request, Response $response) {

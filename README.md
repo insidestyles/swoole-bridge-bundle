@@ -23,6 +23,11 @@ swoole_bridge:
     server:
         port: "%web_server_port%"      #The port the socket server will listen on
         host: "%web_server_host%"
+        configs:
+          document_root: '/app/public'
+          enable_static_handler: true
+          http_compression: true
+          http_compression_level: 1
 ```
 Update bundles
 ```php

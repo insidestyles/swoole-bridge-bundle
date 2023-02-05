@@ -52,6 +52,7 @@ services:
             - "@swoole_bridge.handler"
             - "%swoole_bridge.server.host%"
             - "%swoole_bridge.server.port%"
+            - "%swoole_bridge.server.configs%"
         tags:
             - { name: console.command }
     Insidestyles\SwooleBridgeBundle\Command\SwooleBridgeServerCommand: '@swoole_bridge.server_command'
