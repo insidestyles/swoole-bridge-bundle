@@ -1,3 +1,6 @@
+Version 2.0.0:
+ - init 2.0
+
 Version 1.1.1:
  - Merge pull request #4 from Edwolfbear/master
  - updated for symfony 5
